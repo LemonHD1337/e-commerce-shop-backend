@@ -1,22 +1,38 @@
 package co.shop.api.translator;
 
+
+import co.shop.api.dtos.CreateProductDto;
 import co.shop.api.dtos.ProductDto;
 import co.shop.api.entities.Product;
-import org.springframework.stereotype.Service;
+import co.shop.api.interfaces.IProductMapper;
+import org.springframework.stereotype.Component;
 
 
+@Component
+public class ProductMapper implements IProductMapper {
 
-@Service
-public class ProductMapper{
+    @Override
+    public ProductDto toDto(Product product) {
+        var productDto = new ProductDto();
 
-    public ProductDto fromProductModelToProductDto(Product product) {
-        return new ProductDto(
-                        product.getId(),
-                        product.getName(),
-                        product.getDescription(),
-                        product.getPrice(),
-                product.getQuantity(),
-                product.getCategory()
-                );
+        productDto.setId(product.getId());
+        productDto.setName(product.getName());
+        productDto.setDescription(product.getDescription());
+        productDto.setPrice(product.getPrice());
+        productDto.setQuantity(product.getQuantity());
+        productDto.setCategory(product.getCategory());
+        return productDto;
+    }
+
+    @Override
+    public Product fromCreateDtoToEntity(CreateProductDto createProductDto) {
+        var productEntity = new Product();
+
+        productEntity.setName(createProductDto.getName());
+        productEntity.setDescription(createProductDto.getDescription());
+        productEntity.setPrice(createProductDto.getPrice());
+        productEntity.setQuantity(createProductDto.getQuantity());
+        productEntity.setCategory(createProductDto.getCategory());
+        return productEntity;
     }
 }

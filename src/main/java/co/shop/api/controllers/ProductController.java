@@ -1,9 +1,9 @@
 package co.shop.api.controllers;
 
 
+import co.shop.api.dtos.CreateProductDto;
 import co.shop.api.dtos.ProductDto;
 import co.shop.api.dtos.UpdateProductDto;
-import co.shop.api.entities.Product;
 import co.shop.api.services.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,7 @@ import java.util.List;
 public class ProductController {
     private final ProductService _productService;
 
-    public ProductController(final ProductService productService) {
+    public ProductController(ProductService productService) {
         this._productService = productService;
     }
 
@@ -30,8 +30,8 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductDto> CreateProduct(@RequestBody final Product product) {
-        return ResponseEntity.ok(_productService.createProduct(product));
+    public ResponseEntity<ProductDto> CreateProduct(@RequestBody final CreateProductDto createProductDto) {
+        return ResponseEntity.ok(_productService.createProduct(createProductDto));
     }
 
     @PutMapping("/{id}")

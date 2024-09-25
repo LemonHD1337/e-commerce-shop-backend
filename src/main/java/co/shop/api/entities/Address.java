@@ -10,8 +10,8 @@ import lombok.Setter;
 @Entity
 @Setter
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class Address {
 
     @Id
@@ -29,4 +29,5 @@ public class Address {
 
     @Column(nullable = false)
     private String zipcode;
+
 }
