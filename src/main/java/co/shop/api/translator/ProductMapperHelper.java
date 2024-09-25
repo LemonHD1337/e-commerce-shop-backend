@@ -6,10 +6,10 @@ import co.shop.api.repositories.ProductRepository;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ImageMapperHelper {
+public class ProductMapperHelper {
     private final ProductRepository _productRepository;
 
-    public ImageMapperHelper(final ProductRepository productRepository) {
+    public ProductMapperHelper(final ProductRepository productRepository) {
         this._productRepository = productRepository;
     }
 

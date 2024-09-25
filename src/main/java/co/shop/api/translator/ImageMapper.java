@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class ImageMapper implements IImageMapper {
 
-    private final ImageMapperHelper _helper;
+    private final ProductMapperHelper _helper;
 
-    public ImageMapper(ImageMapperHelper helper) {
+    public ImageMapper(ProductMapperHelper helper) {
         this._helper = helper;
     }
 
