@@ -27,14 +27,11 @@ public class ImageService implements IImageService {
 
     @Override
     public List<ImageDto> getAll() {
-
-        var images =  _imageRepository
+        return _imageRepository
                 .findAll()
                 .stream()
                 .map(_imageMapper::toDto)
                 .toList();
-
-        return images;
     }
 
     @Override
