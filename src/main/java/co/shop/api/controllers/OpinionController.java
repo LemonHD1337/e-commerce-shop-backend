@@ -39,7 +39,7 @@ public class OpinionController {
         return ResponseEntity.ok(_opinionService.update(id, updateOpinionDto));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable long id){
         var deletedOpinion = _opinionService.delete(id);
 
