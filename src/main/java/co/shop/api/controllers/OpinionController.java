@@ -41,6 +41,8 @@ public class OpinionController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> delete(@PathVariable long id){
+        var deletedOpinion = _opinionService.delete(id);
+
         return ResponseEntity.noContent().build();
     }
 

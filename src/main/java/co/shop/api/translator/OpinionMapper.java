@@ -5,7 +5,9 @@ import co.shop.api.dtos.OpinionDto;
 import co.shop.api.dtos.UpdateOpinionDto;
 import co.shop.api.entities.Opinion;
 import co.shop.api.interfaces.IOpinionMapper;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OpinionMapper implements IOpinionMapper {
 
     private final ProductMapperHelper _helper;
