@@ -24,7 +24,7 @@ public class OpinionController {
         return ResponseEntity.ok(_opinionService.getAll());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getById/{id}")
     public ResponseEntity<OpinionDto> getById(@PathVariable long id){
         return ResponseEntity.ok(_opinionService.getById(id));
     }
