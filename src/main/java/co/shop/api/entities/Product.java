@@ -39,8 +39,8 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    @ManyToMany(mappedBy = "ordered_products")
-    private Set<Order> orders = new HashSet<>();
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private Set<OrderProduct> orderProducts = new HashSet<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Image> images;

@@ -16,20 +16,15 @@ import java.util.Set;
 @Getter
 @Setter
 public class Order {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany
-    @JoinTable(
-            name = "ordered_products",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private Set<Product> ordered_products = new HashSet<>();
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private Set<OrderProduct> orderProducts = new HashSet<>();
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "address_id")
     private Address address;
 
     @Enumerated(EnumType.STRING)
