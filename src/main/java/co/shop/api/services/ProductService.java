@@ -1,11 +1,12 @@
 package co.shop.api.services;
 
-import co.shop.api.dtos.CreateProductDto;
-import co.shop.api.dtos.ProductDto;
-import co.shop.api.dtos.UpdateProductDto;
+import co.shop.api.dtos.productDto.CreateProductDto;
+import co.shop.api.dtos.productDto.ProductDto;
+import co.shop.api.dtos.productDto.UpdateProductDto;
 import co.shop.api.entities.Product;
 import co.shop.api.exception.EmptyRequestBodyException;
-import co.shop.api.interfaces.IProductMapper;
+import co.shop.api.interfaces.mappers.IProductMapper;
+import co.shop.api.interfaces.services.IProductService;
 import co.shop.api.repositories.ProductRepository;
 import co.shop.api.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ProductService {
+public class ProductService implements IProductService {
 
     private final ProductRepository _productRepository;
     private final IProductMapper _productMapper;
@@ -47,7 +48,7 @@ public class ProductService {
     }
 
 
-    public ProductDto updateProduct(UpdateProductDto updateProductDto, Long id) {
+    public ProductDto updateProduct(Long id, UpdateProductDto updateProductDto) {
         if(updateProductDto == null) throw new EmptyRequestBodyException("data is missing");
         Product product = _productRepository
                 .findById(id)

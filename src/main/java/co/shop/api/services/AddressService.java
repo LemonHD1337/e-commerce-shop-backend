@@ -1,12 +1,12 @@
 package co.shop.api.services;
 
-import co.shop.api.dtos.AddressDto;
-import co.shop.api.dtos.CreateAddressDto;
-import co.shop.api.dtos.UpdateAddressDto;
+import co.shop.api.dtos.addressDto.AddressDto;
+import co.shop.api.dtos.addressDto.CreateAddressDto;
+import co.shop.api.dtos.addressDto.UpdateAddressDto;
 import co.shop.api.exception.EmptyRequestBodyException;
 import co.shop.api.exception.ResourceNotFoundException;
-import co.shop.api.interfaces.IAddressMapper;
-import co.shop.api.interfaces.IAddressService;
+import co.shop.api.interfaces.mappers.IAddressMapper;
+import co.shop.api.interfaces.services.IAddressService;
 import co.shop.api.repositories.AddressRepository;
 import org.springframework.stereotype.Service;
 

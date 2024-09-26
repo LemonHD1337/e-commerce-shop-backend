@@ -1,10 +1,10 @@
 package co.shop.api.controllers;
 
 
-import co.shop.api.dtos.CreateImageDto;
-import co.shop.api.dtos.ImageDto;
-import co.shop.api.dtos.UpdateImageDto;
-import co.shop.api.interfaces.IImageService;
+import co.shop.api.dtos.imageDto.CreateImageDto;
+import co.shop.api.dtos.imageDto.ImageDto;
+import co.shop.api.dtos.imageDto.UpdateImageDto;
+import co.shop.api.interfaces.services.IImageService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

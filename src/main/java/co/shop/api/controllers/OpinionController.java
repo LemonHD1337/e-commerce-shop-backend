@@ -1,9 +1,9 @@
 package co.shop.api.controllers;
 
-import co.shop.api.dtos.CreateOpinionDto;
-import co.shop.api.dtos.OpinionDto;
-import co.shop.api.dtos.UpdateOpinionDto;
-import co.shop.api.interfaces.IOpinionService;
+import co.shop.api.dtos.opinionDto.CreateOpinionDto;
+import co.shop.api.dtos.opinionDto.OpinionDto;
+import co.shop.api.dtos.opinionDto.UpdateOpinionDto;
+import co.shop.api.interfaces.services.IOpinionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

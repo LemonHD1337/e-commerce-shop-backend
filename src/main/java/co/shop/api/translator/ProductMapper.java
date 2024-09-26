@@ -1,10 +1,10 @@
 package co.shop.api.translator;
 
 
-import co.shop.api.dtos.CreateProductDto;
-import co.shop.api.dtos.ProductDto;
+import co.shop.api.dtos.productDto.CreateProductDto;
+import co.shop.api.dtos.productDto.ProductDto;
 import co.shop.api.entities.Product;
-import co.shop.api.interfaces.IProductMapper;
+import co.shop.api.interfaces.mappers.IProductMapper;
 import org.springframework.stereotype.Component;
 
 
@@ -23,6 +23,7 @@ public class ProductMapper implements IProductMapper {
         productDto.setCategory(product.getCategory());
         return productDto;
     }
+
 
     @Override
     public Product fromCreateDtoToEntity(CreateProductDto createProductDto) {

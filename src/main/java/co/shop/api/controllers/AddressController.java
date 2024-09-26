@@ -1,9 +1,9 @@
 package co.shop.api.controllers;
 
-import co.shop.api.dtos.AddressDto;
-import co.shop.api.dtos.CreateAddressDto;
-import co.shop.api.dtos.UpdateAddressDto;
-import co.shop.api.interfaces.IAddressService;
+import co.shop.api.dtos.addressDto.AddressDto;
+import co.shop.api.dtos.addressDto.CreateAddressDto;
+import co.shop.api.dtos.addressDto.UpdateAddressDto;
+import co.shop.api.interfaces.services.IAddressService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

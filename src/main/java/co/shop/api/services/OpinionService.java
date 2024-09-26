@@ -1,12 +1,13 @@
 package co.shop.api.services;
 
-import co.shop.api.dtos.CreateOpinionDto;
-import co.shop.api.dtos.OpinionDto;
-import co.shop.api.dtos.UpdateOpinionDto;
+import co.shop.api.dtos.opinionDto.CreateOpinionDto;
+import co.shop.api.dtos.opinionDto.OpinionDto;
+import co.shop.api.dtos.opinionDto.UpdateOpinionDto;
 import co.shop.api.exception.ResourceNotFoundException;
-import co.shop.api.interfaces.IOpinionMapper;
-import co.shop.api.interfaces.IOpinionService;
+import co.shop.api.interfaces.mappers.IOpinionMapper;
+import co.shop.api.interfaces.services.IOpinionService;
 import co.shop.api.repositories.OpinionRepository;
+import co.shop.api.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,11 +15,13 @@ import java.util.List;
 @Service
 public class OpinionService implements IOpinionService {
     private final OpinionRepository _opinionRepository;
+    private final ProductRepository _productRepository;
     private final IOpinionMapper _opinionMapper;
 
-    public OpinionService(OpinionRepository opinionRepository, IOpinionMapper opinionMapper) {
+    public OpinionService(OpinionRepository opinionRepository, IOpinionMapper opinionMapper, ProductRepository productRepository) {
         this._opinionRepository = opinionRepository;
         this._opinionMapper = opinionMapper;
+        this._productRepository = productRepository;
     }
 
     @Override
@@ -42,9 +45,15 @@ public class OpinionService implements IOpinionService {
 
     @Override
     public OpinionDto create(CreateOpinionDto createOpinionDto) {
-        var opinionEntity = _opinionMapper.fromCreateOpinionDtoToOpinionEntity(createOpinionDto);
+       var product = _productRepository
+               .findById(createOpinionDto.getProductId())
+               .orElseThrow(
+                       () -> new ResourceNotFoundException("Product not found with id: " + createOpinionDto.getProductId())
+               );
 
-        _opinionRepository.save(opinionEntity);
+       createOpinionDto.setProduct(product);
+
+        var opinionEntity = _opinionRepository.save(_opinionMapper.fromCreateOpinionDtoToOpinionEntity(createOpinionDto));
 
         return _opinionMapper.toOpinionDto(opinionEntity);
     }
@@ -57,11 +66,21 @@ public class OpinionService implements IOpinionService {
                         () -> new ResourceNotFoundException("Opinion not found with id: " + id)
                 );
 
-        var changedOpinionEntity = _opinionMapper.fromUpdateOpinionDtoToOpinionEntity(opinionEntity, updateOpinionDto);
+        Long productId = updateOpinionDto.getProductId();
 
-        _opinionRepository.save(changedOpinionEntity);
+        var product = _productRepository
+                .findById(productId)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("Product not found with id: " + productId)
+                );
 
-        return _opinionMapper.toOpinionDto(changedOpinionEntity);
+        opinionEntity.setProduct(product);
+        opinionEntity.setComment(updateOpinionDto.getComment());
+        opinionEntity.setRating(updateOpinionDto.getRating());
+
+        var changedOpinionEntity = _opinionRepository.save(opinionEntity);
+
+        return  _opinionMapper.toOpinionDto(changedOpinionEntity);
     }
 
     @Override

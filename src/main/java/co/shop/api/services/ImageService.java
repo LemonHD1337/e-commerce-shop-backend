@@ -1,13 +1,14 @@
 package co.shop.api.services;
 
-import co.shop.api.dtos.CreateImageDto;
-import co.shop.api.dtos.ImageDto;
-import co.shop.api.dtos.UpdateImageDto;
+import co.shop.api.dtos.imageDto.CreateImageDto;
+import co.shop.api.dtos.imageDto.ImageDto;
+import co.shop.api.dtos.imageDto.UpdateImageDto;
 import co.shop.api.exception.EmptyRequestBodyException;
 import co.shop.api.exception.ResourceNotFoundException;
-import co.shop.api.interfaces.IImageMapper;
-import co.shop.api.interfaces.IImageService;
+import co.shop.api.interfaces.mappers.IImageMapper;
+import co.shop.api.interfaces.services.IImageService;
 import co.shop.api.repositories.ImageRepository;
+import co.shop.api.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,12 +17,14 @@ import java.util.List;
 public class ImageService implements IImageService {
 
     private final ImageRepository _imageRepository;
+    private final ProductRepository _productRepository;
     private final IImageMapper _imageMapper;
 
 
-    public ImageService(ImageRepository imageRepository, IImageMapper imageMapper) {
+    public ImageService(ImageRepository imageRepository, IImageMapper imageMapper, ProductRepository productRepository) {
         this._imageRepository = imageRepository;
         this._imageMapper = imageMapper;
+        this._productRepository = productRepository;
     }
 
 
@@ -48,6 +51,14 @@ public class ImageService implements IImageService {
     public ImageDto create(CreateImageDto createImageDto) {
         if(createImageDto == null) throw new EmptyRequestBodyException("data is missing");
 
+        var product = _productRepository
+                .findById(createImageDto.getProductId())
+                .orElseThrow(
+                () -> new ResourceNotFoundException("Product not found with id: " + createImageDto.getProductId())
+                );
+
+        createImageDto.setProduct(product);
+
         var imageEntity = _imageRepository.save(_imageMapper.fromCreateImageDtoToEntity(createImageDto));
 
         return _imageMapper.toDto(imageEntity);
@@ -63,9 +74,17 @@ public class ImageService implements IImageService {
                         () -> new ResourceNotFoundException("Image not found with id: " + id)
                 );
 
-        var changedImageEntity = _imageMapper.fromUpdateImageDtoToEntity(imageEntity, updateImageDto);
+        var productEntity = _productRepository
+                .findById(updateImageDto.getProductId())
+                .orElseThrow(
+                        ()-> new ResourceNotFoundException("Product not found with id: " + updateImageDto.getProductId())
+                );
 
-        _imageRepository.save(changedImageEntity);
+
+        imageEntity.setImageName(updateImageDto.getImageName());
+        imageEntity.setProduct(productEntity);
+
+        var changedImageEntity = _imageRepository.save(imageEntity);
 
         return _imageMapper.toDto(changedImageEntity);
     }
