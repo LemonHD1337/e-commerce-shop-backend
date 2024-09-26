@@ -1,7 +1,7 @@
-package co.shop.api.interfaces;
+package co.shop.api.interfaces.mappers;
 
-import co.shop.api.dtos.CreateProductDto;
-import co.shop.api.dtos.ProductDto;
+import co.shop.api.dtos.productDto.CreateProductDto;
+import co.shop.api.dtos.productDto.ProductDto;
 import co.shop.api.entities.Product;
 
 public interface IProductMapper {

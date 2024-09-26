@@ -1,8 +1,8 @@
-package co.shop.api.interfaces;
+package co.shop.api.interfaces.services;
 
-import co.shop.api.dtos.CreateImageDto;
-import co.shop.api.dtos.ImageDto;
-import co.shop.api.dtos.UpdateImageDto;
+import co.shop.api.dtos.imageDto.CreateImageDto;
+import co.shop.api.dtos.imageDto.ImageDto;
+import co.shop.api.dtos.imageDto.UpdateImageDto;
 
 import java.util.List;
 

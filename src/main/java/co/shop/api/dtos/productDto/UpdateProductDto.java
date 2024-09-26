@@ -1,4 +1,4 @@
-package co.shop.api.dtos;
+package co.shop.api.dtos.productDto;
 
 import co.shop.api.entities.enums.Category;
 import lombok.AllArgsConstructor;

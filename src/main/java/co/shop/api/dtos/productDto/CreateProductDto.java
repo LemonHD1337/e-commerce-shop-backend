@@ -1,4 +1,4 @@
-package co.shop.api.dtos;
+package co.shop.api.dtos.productDto;
 
 import co.shop.api.entities.enums.Category;
 import lombok.AllArgsConstructor;
@@ -8,13 +8,11 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
-
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class ProductDto {
-    private Long id;
+@NoArgsConstructor
+public class CreateProductDto {
     private String name;
     private String description;
     private BigDecimal price;

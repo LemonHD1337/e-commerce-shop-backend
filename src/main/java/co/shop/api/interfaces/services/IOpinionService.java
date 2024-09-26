@@ -1,8 +1,8 @@
-package co.shop.api.interfaces;
+package co.shop.api.interfaces.services;
 
-import co.shop.api.dtos.CreateOpinionDto;
-import co.shop.api.dtos.OpinionDto;
-import co.shop.api.dtos.UpdateOpinionDto;
+import co.shop.api.dtos.opinionDto.CreateOpinionDto;
+import co.shop.api.dtos.opinionDto.OpinionDto;
+import co.shop.api.dtos.opinionDto.UpdateOpinionDto;
 
 import java.util.List;
 

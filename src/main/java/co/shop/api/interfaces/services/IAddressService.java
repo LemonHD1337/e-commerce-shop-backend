@@ -1,8 +1,8 @@
-package co.shop.api.interfaces;
+package co.shop.api.interfaces.services;
 
-import co.shop.api.dtos.AddressDto;
-import co.shop.api.dtos.CreateAddressDto;
-import co.shop.api.dtos.UpdateAddressDto;
+import co.shop.api.dtos.addressDto.AddressDto;
+import co.shop.api.dtos.addressDto.CreateAddressDto;
+import co.shop.api.dtos.addressDto.UpdateAddressDto;
 
 import java.util.List;
 

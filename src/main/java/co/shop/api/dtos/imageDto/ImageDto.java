@@ -1,4 +1,4 @@
-package co.shop.api.dtos;
+package co.shop.api.dtos.imageDto;
 
 import lombok.Getter;
 import lombok.Setter;
