@@ -20,7 +20,7 @@ public class CentralValidator {
         }
     }
 
-    public <T> void validate(T object) throws IllegalArgumentException {
+    public <T> void validate(T object) throws BadRequestException {
         Set<ConstraintViolation<T>> violations = validator.validate(object);
 
         if (!violations.isEmpty()) {
