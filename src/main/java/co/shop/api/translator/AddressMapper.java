@@ -23,6 +23,19 @@ public class AddressMapper implements IAddressMapper {
     }
 
     @Override
+    public Address toEntity(AddressDto addressDto) {
+        var address = new Address();
+
+        address.setId(addressDto.getId());
+        address.setHouseNumber(addressDto.getHouseNumber());
+        address.setStreetName(addressDto.getStreetName());
+        address.setCity(addressDto.getCity());
+        address.setZipcode(addressDto.getZipcode());
+
+        return address;
+    }
+
+    @Override
     public Address fromCreateAddressDtoToEntity(CreateAddressDto createAddressDto) {
         var addressEntity = new Address();
 

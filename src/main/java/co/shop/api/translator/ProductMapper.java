@@ -24,7 +24,6 @@ public class ProductMapper implements IProductMapper {
         return productDto;
     }
 
-
     @Override
     public Product fromCreateDtoToEntity(CreateProductDto createProductDto) {
         var productEntity = new Product();

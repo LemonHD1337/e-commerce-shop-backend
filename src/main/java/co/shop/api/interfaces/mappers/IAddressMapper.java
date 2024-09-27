@@ -6,5 +6,6 @@ import co.shop.api.entities.Address;
 
 public interface IAddressMapper {
     AddressDto toDto(Address address);
+    Address toEntity(AddressDto addressDto);
     Address fromCreateAddressDtoToEntity(CreateAddressDto createAddressDto);
 }
