@@ -26,10 +26,10 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(nullable = false)
-    private String firstname;
+    private String firstName;
 
     @Column(nullable = false)
-    private String surname;
+    private String lastName;
 
     @Column(unique = true, nullable = false)
     private String email;
@@ -38,7 +38,7 @@ public class User implements UserDetails {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role role = Role.USER;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
