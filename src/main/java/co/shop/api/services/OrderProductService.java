@@ -9,6 +9,7 @@ import co.shop.api.interfaces.services.IOrderProductService;
 import co.shop.api.repositories.OrderProductRepository;
 import co.shop.api.repositories.OrderRepository;
 import co.shop.api.repositories.ProductRepository;
+import co.shop.api.validation.CentralValidator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,12 +21,20 @@ public class OrderProductService implements IOrderProductService {
     private final IOrderProductMapper _orderProductMapper;
     private final ProductRepository _productRepository;
     private final OrderRepository _orderRepository;
+    private final CentralValidator _validator;
 
-    public OrderProductService(OrderProductRepository orderProductRepository, IOrderProductMapper orderProductMapper, ProductRepository productRepository, OrderRepository orderRepository) {
+    public OrderProductService(
+            OrderProductRepository orderProductRepository,
+            IOrderProductMapper orderProductMapper,
+            ProductRepository productRepository,
+            OrderRepository orderRepository,
+            CentralValidator validator
+    ) {
         this._orderProductRepository = orderProductRepository;
         this._orderProductMapper = orderProductMapper;
         this._productRepository = productRepository;
         this._orderRepository = orderRepository;
+        this._validator = validator;
     }
 
     @Override
@@ -45,6 +54,7 @@ public class OrderProductService implements IOrderProductService {
 
     @Override
     public OrderProductDto createOrderProduct(CreateOrderProductDto createOrderProductDto) {
+        _validator.validate(createOrderProductDto);
         var productEntity = _productRepository.findById(createOrderProductDto.getProductId()).orElseThrow(
                 () -> new ResourceNotFoundException("Product not found with id: " + createOrderProductDto.getProductId())
         );
@@ -65,6 +75,7 @@ public class OrderProductService implements IOrderProductService {
 
     @Override
     public OrderProductDto updateOrderProduct(Long id, UpdateOrderProductDto updateOrderProductDto) {
+        _validator.validate(updateOrderProductDto);
         var orderProductEntity = _orderProductRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Order product not found with id: " + id)
         );

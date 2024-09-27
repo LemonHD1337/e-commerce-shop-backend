@@ -3,11 +3,11 @@ package co.shop.api.services;
 import co.shop.api.dtos.addressDto.AddressDto;
 import co.shop.api.dtos.addressDto.CreateAddressDto;
 import co.shop.api.dtos.addressDto.UpdateAddressDto;
-import co.shop.api.exception.EmptyRequestBodyException;
 import co.shop.api.exception.ResourceNotFoundException;
 import co.shop.api.interfaces.mappers.IAddressMapper;
 import co.shop.api.interfaces.services.IAddressService;
 import co.shop.api.repositories.AddressRepository;
+import co.shop.api.validation.CentralValidator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,10 +17,16 @@ public class AddressService implements IAddressService {
 
     private final AddressRepository _addressRepository;
     private final IAddressMapper _addressMapper;
+    private final CentralValidator _validator;
 
-    public AddressService(AddressRepository addressRepository, IAddressMapper addressMapper) {
+    public AddressService(
+            AddressRepository addressRepository,
+            IAddressMapper addressMapper,
+            CentralValidator validator
+    ) {
         this._addressRepository = addressRepository;
         this._addressMapper = addressMapper;
+        this._validator = validator;
     }
 
     @Override
@@ -40,8 +46,7 @@ public class AddressService implements IAddressService {
 
     @Override
     public AddressDto create(CreateAddressDto createAddressDto) {
-
-        if(createAddressDto == null) throw new EmptyRequestBodyException("data is missing");
+        _validator.validate(createAddressDto);
 
         var address = _addressRepository.save(_addressMapper.fromCreateAddressDtoToEntity(createAddressDto));
 
@@ -50,7 +55,7 @@ public class AddressService implements IAddressService {
 
     @Override
     public AddressDto update(Long id,UpdateAddressDto updateAddressDto) {
-        if(updateAddressDto == null) throw new EmptyRequestBodyException("data is missing");
+        _validator.validate(updateAddressDto);
 
         var addressEntity = _addressRepository
                 .findById(id)

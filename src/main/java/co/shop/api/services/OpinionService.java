@@ -8,6 +8,7 @@ import co.shop.api.interfaces.mappers.IOpinionMapper;
 import co.shop.api.interfaces.services.IOpinionService;
 import co.shop.api.repositories.OpinionRepository;
 import co.shop.api.repositories.ProductRepository;
+import co.shop.api.validation.CentralValidator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,11 +18,18 @@ public class OpinionService implements IOpinionService {
     private final OpinionRepository _opinionRepository;
     private final ProductRepository _productRepository;
     private final IOpinionMapper _opinionMapper;
+    private final CentralValidator _validator;
 
-    public OpinionService(OpinionRepository opinionRepository, IOpinionMapper opinionMapper, ProductRepository productRepository) {
+    public OpinionService(
+            OpinionRepository opinionRepository,
+            IOpinionMapper opinionMapper,
+            ProductRepository productRepository,
+            CentralValidator validator
+    ) {
         this._opinionRepository = opinionRepository;
         this._opinionMapper = opinionMapper;
         this._productRepository = productRepository;
+        this._validator = validator;
     }
 
     @Override
@@ -45,6 +53,8 @@ public class OpinionService implements IOpinionService {
 
     @Override
     public OpinionDto create(CreateOpinionDto createOpinionDto) {
+        _validator.validate(createOpinionDto);
+
        var product = _productRepository
                .findById(createOpinionDto.getProductId())
                .orElseThrow(
@@ -60,6 +70,8 @@ public class OpinionService implements IOpinionService {
 
     @Override
     public OpinionDto update(Long id, UpdateOpinionDto updateOpinionDto) {
+        _validator.validate(updateOpinionDto);
+
         var opinionEntity = _opinionRepository
                 .findById(id)
                 .orElseThrow(

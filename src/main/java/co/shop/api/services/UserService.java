@@ -8,6 +8,7 @@ import co.shop.api.exception.ResourceNotFoundException;
 import co.shop.api.interfaces.mappers.IUserMapper;
 import co.shop.api.interfaces.services.IUserService;
 import co.shop.api.repositories.UserRepository;
+import co.shop.api.validation.CentralValidator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +18,18 @@ public class UserService implements IUserService {
     private final UserRepository _userRepository;
     private final IUserMapper _userMapper;
     private final PasswordEncoder _passwordEncoder;
+    private final CentralValidator _validator;
 
-    public UserService(UserRepository userRepository, IUserMapper userMapper, PasswordEncoder passwordEncoder) {
+    public UserService(
+            UserRepository userRepository,
+            IUserMapper userMapper,
+            PasswordEncoder passwordEncoder,
+            CentralValidator validator)
+    {
         this._userRepository = userRepository;
         this._userMapper = userMapper;
         this._passwordEncoder = passwordEncoder;
+        this._validator = validator;
     }
 
     @Override
@@ -36,6 +44,7 @@ public class UserService implements IUserService {
 
     @Override
     public Void RegisterUser(RegisterUserDto registerUserDto) {
+        _validator.validate(registerUserDto);
         registerUserDto.setPassword(_passwordEncoder.encode(registerUserDto.getPassword()));
         _userRepository.save(_userMapper.fromRegisterUserDtoToEntity(registerUserDto));
         return null;
@@ -43,6 +52,8 @@ public class UserService implements IUserService {
 
     @Override
     public UserDto loginUser(LoginUserDto loginUserDto) {
+        _validator.validate(loginUserDto);
+
         var user = _userRepository.findByEmail(loginUserDto.getEmail());
 
         if(user == null) {

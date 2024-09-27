@@ -8,6 +8,7 @@ import co.shop.api.interfaces.mappers.IAddressMapper;
 import co.shop.api.interfaces.mappers.IOrderMapper;
 import co.shop.api.interfaces.services.IOrderService;
 import co.shop.api.repositories.OrderRepository;
+import co.shop.api.validation.CentralValidator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,11 +19,18 @@ public class OrderService implements IOrderService {
     private final OrderRepository _orderRepository;
     private final IOrderMapper _orderMapper;
     private final IAddressMapper _addressMapper;
+    private final CentralValidator _validator;
 
-    public OrderService(OrderRepository orderRepository, IOrderMapper orderMapper, IAddressMapper addressMapper) {
+    public OrderService(
+            OrderRepository orderRepository,
+            IOrderMapper orderMapper,
+            IAddressMapper addressMapper,
+            CentralValidator validator
+    ) {
         this._orderRepository = orderRepository;
         this._orderMapper = orderMapper;
         this._addressMapper = addressMapper;
+        this._validator = validator;
     }
 
     @Override
@@ -46,6 +54,8 @@ public class OrderService implements IOrderService {
 
     @Override
     public OrderDto createOrder(CreateOrderDto createOrderDto) {
+        _validator.validate(createOrderDto);
+
         var createdOrder = _orderRepository.save(_orderMapper.fromCreateOrderDtoToOrderEntity(createOrderDto));
 
         return _orderMapper.toDto(createdOrder);
@@ -53,6 +63,8 @@ public class OrderService implements IOrderService {
 
     @Override
     public OrderDto updateOrder(Long id, UpdateOrderDto updateOrderDto) {
+        _validator.validate(updateOrderDto);
+
         var updateOrder = _orderRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found with id " + id));

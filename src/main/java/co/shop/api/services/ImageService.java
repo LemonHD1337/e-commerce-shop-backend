@@ -3,12 +3,12 @@ package co.shop.api.services;
 import co.shop.api.dtos.imageDto.CreateImageDto;
 import co.shop.api.dtos.imageDto.ImageDto;
 import co.shop.api.dtos.imageDto.UpdateImageDto;
-import co.shop.api.exception.EmptyRequestBodyException;
 import co.shop.api.exception.ResourceNotFoundException;
 import co.shop.api.interfaces.mappers.IImageMapper;
 import co.shop.api.interfaces.services.IImageService;
 import co.shop.api.repositories.ImageRepository;
 import co.shop.api.repositories.ProductRepository;
+import co.shop.api.validation.CentralValidator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,12 +19,18 @@ public class ImageService implements IImageService {
     private final ImageRepository _imageRepository;
     private final ProductRepository _productRepository;
     private final IImageMapper _imageMapper;
+    private final CentralValidator _validator;
 
-
-    public ImageService(ImageRepository imageRepository, IImageMapper imageMapper, ProductRepository productRepository) {
+    public ImageService(
+            ImageRepository imageRepository,
+            IImageMapper imageMapper,
+            ProductRepository productRepository,
+            CentralValidator validator
+    ) {
         this._imageRepository = imageRepository;
         this._imageMapper = imageMapper;
         this._productRepository = productRepository;
+        this._validator = validator;
     }
 
 
@@ -49,7 +55,7 @@ public class ImageService implements IImageService {
 
     @Override
     public ImageDto create(CreateImageDto createImageDto) {
-        if(createImageDto == null) throw new EmptyRequestBodyException("data is missing");
+        _validator.validate(createImageDto);
 
         var product = _productRepository
                 .findById(createImageDto.getProductId())
@@ -66,7 +72,7 @@ public class ImageService implements IImageService {
 
     @Override
     public ImageDto update(Long id, UpdateImageDto updateImageDto) {
-        if(updateImageDto == null) throw new EmptyRequestBodyException("data is missing");
+        _validator.validate(updateImageDto);
 
         var imageEntity = _imageRepository
                 .findById(id)
