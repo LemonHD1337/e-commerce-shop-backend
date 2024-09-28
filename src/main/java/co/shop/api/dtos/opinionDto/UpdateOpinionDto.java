@@ -16,6 +16,5 @@ public class UpdateOpinionDto {
     @NotBlank(message = "Ocena produktu nie powinna być pusta!")
     private float rating;
 
-    @NotBlank(message = "Id produktu nie może być puste!")
     private Long productId;
 }

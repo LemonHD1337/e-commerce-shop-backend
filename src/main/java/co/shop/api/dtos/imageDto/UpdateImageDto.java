@@ -11,6 +11,5 @@ public class UpdateImageDto {
     @NotBlank(message = "Nazwa zdjęcia nie powinna być pusta!")
     private String imageName;
 
-    @NotBlank(message = "Id produktu nie powinno być puste!")
     private Long productId;
 }

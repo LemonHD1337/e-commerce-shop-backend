@@ -35,46 +35,38 @@ public class ProductService implements IProductService {
     }
 
     public ProductDto getProductById(Long id){
-        return _productRepository
-                .findById(id)
-                .map(_productMapper::toDto)
-                .orElseThrow(
-                        ()-> new ResourceNotFoundException("Product not found with id: " + id)
-                );
+        return _productMapper.toDto(getProductEntityById(id));
     }
 
     public ProductDto createProduct(CreateProductDto createProductDto){
-        _validator.validate(createProductDto);
-        var product = _productRepository.save(_productMapper.fromCreateDtoToEntity(createProductDto));
-        return _productMapper.toDto(product);
+        validate(createProductDto);
+        var createdProduct = _productRepository.save(_productMapper.fromCreateDtoToEntity(createProductDto));
+        return _productMapper.toDto(createdProduct);
     }
 
 
     public ProductDto updateProduct(Long id, UpdateProductDto updateProductDto) {
-        _validator.validate(updateProductDto);
-
-        Product product = _productRepository
-                .findById(id)
-                .orElseThrow(
-                        () -> new ResourceNotFoundException("Product not found with id: " + id)
-                );
-
-        product.setName(updateProductDto.getName());
-        product.setDescription(updateProductDto.getDescription());
-        product.setPrice(updateProductDto.getPrice());
-        product.setCategory(updateProductDto.getCategory());
-        product.setQuantity(updateProductDto.getQuantity());
-        _productRepository.save(product);
-
-        return _productMapper.toDto(product);
+        validate(updateProductDto);
+        var product = getProductEntityById(id);
+        var changedProduct = _productMapper.fromUpdateProductDtoToEntity(product, updateProductDto);
+        return _productMapper.toDto(_productRepository.save(changedProduct));
     }
 
     public ProductDto deleteProduct(Long id) {
-        var product = _productRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Product not found with id: " + id)
-        );
-
+        var product = getProductEntityById(id);
         _productRepository.delete(product);
         return _productMapper.toDto(product);
+    }
+
+    private Product getProductEntityById(Long id){
+        return _productRepository
+                .findById(id)
+                .orElseThrow(
+                    () -> new ResourceNotFoundException("Product not found with id: " + id)
+                );
+    }
+
+    private void validate(Object obj){
+        _validator.validate(obj);
     }
 }

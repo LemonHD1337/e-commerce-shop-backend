@@ -2,6 +2,8 @@ package co.shop.api.translator;
 
 import co.shop.api.dtos.orderDto.CreateOrderDto;
 import co.shop.api.dtos.orderDto.OrderDto;
+import co.shop.api.dtos.orderDto.UpdateOrderDto;
+import co.shop.api.entities.Address;
 import co.shop.api.entities.Order;
 import co.shop.api.interfaces.mappers.IAddressMapper;
 import co.shop.api.interfaces.mappers.IOrderMapper;
@@ -39,11 +41,26 @@ public class OrderMapper implements IOrderMapper {
     @Override
     public Order fromCreateOrderDtoToOrderEntity(CreateOrderDto createOrderDto) {
         var order = new Order();
+        var address = new Address();
 
-        order.setAddress(_addressMapper.toEntity(createOrderDto.getAddress()));
+        address.setId(createOrderDto.getAddressId());
+
+        order.setAddress(address);
         order.setStatus(createOrderDto.getStatus());
         order.setPayment_method(createOrderDto.getPaymentMethod());
 
         return order;
+    }
+
+    @Override
+    public Order formUpdateOrderDtoToOrderEntity(Order orderFromDb, UpdateOrderDto updateOrderDto) {
+        var address = new Address();
+        address.setId(updateOrderDto.getAddressId());
+
+        orderFromDb.setPayment_method(updateOrderDto.getPaymentMethod());
+        orderFromDb.setStatus(updateOrderDto.getStatus());
+        orderFromDb.setAddress(address);
+
+        return orderFromDb;
     }
 }

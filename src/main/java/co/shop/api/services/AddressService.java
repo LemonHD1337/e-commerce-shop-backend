@@ -3,6 +3,7 @@ package co.shop.api.services;
 import co.shop.api.dtos.addressDto.AddressDto;
 import co.shop.api.dtos.addressDto.CreateAddressDto;
 import co.shop.api.dtos.addressDto.UpdateAddressDto;
+import co.shop.api.entities.Address;
 import co.shop.api.exception.ResourceNotFoundException;
 import co.shop.api.interfaces.mappers.IAddressMapper;
 import co.shop.api.interfaces.services.IAddressService;
@@ -36,54 +37,40 @@ public class AddressService implements IAddressService {
 
     @Override
     public AddressDto getById(Long id) {
-        return _addressRepository
-                .findById(id)
-                .map(_addressMapper::toDto)
-                .orElseThrow(
-                    () -> new ResourceNotFoundException("Address not found with id: " + id)
-                );
+        return _addressMapper.toDto(_addressRepository.getReferenceById(id));
     }
 
     @Override
     public AddressDto create(CreateAddressDto createAddressDto) {
-        _validator.validate(createAddressDto);
-
+        validate(createAddressDto);
         var address = _addressRepository.save(_addressMapper.fromCreateAddressDtoToEntity(createAddressDto));
-
         return _addressMapper.toDto(address);
     }
 
     @Override
     public AddressDto update(Long id,UpdateAddressDto updateAddressDto) {
-        _validator.validate(updateAddressDto);
-
-        var addressEntity = _addressRepository
-                .findById(id)
-                .orElseThrow(
-                        () -> new ResourceNotFoundException("Address not found with id: " + id)
-                );
-
-
-        addressEntity.setHouseNumber(updateAddressDto.getHouseNumber());
-        addressEntity.setStreetName(updateAddressDto.getStreetName());
-        addressEntity.setCity(updateAddressDto.getCity());
-        addressEntity.setZipcode(updateAddressDto.getZipcode());
-
-        _addressRepository.save(addressEntity);
-
-        return _addressMapper.toDto(addressEntity);
+        validate(updateAddressDto);
+        var addressEntity = getAddressById(id);
+        var updatedAddress = _addressMapper.fromUpdateAddressDtoToEntity(addressEntity, updateAddressDto);
+        return _addressMapper.toDto(_addressRepository.save(updatedAddress));
     }
 
     @Override
     public AddressDto delete(Long id) {
-        var addressEntity = _addressRepository
+        var addressEntity = getAddressById(id);
+        _addressRepository.delete(addressEntity);
+        return _addressMapper.toDto(addressEntity);
+    }
+
+    private void validate(Object obj){
+        _validator.validate(obj);
+    }
+
+    private Address getAddressById(Long id) {
+        return _addressRepository
                 .findById(id)
                 .orElseThrow(
                         () -> new ResourceNotFoundException("Address not found with id: " + id)
                 );
-
-        _addressRepository.delete(addressEntity);
-
-        return _addressMapper.toDto(addressEntity);
     }
 }

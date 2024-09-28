@@ -1,7 +1,6 @@
 package co.shop.api.dtos.opinionDto;
 
-import co.shop.api.entities.Product;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -18,9 +17,6 @@ public class CreateOpinionDto {
     @NotBlank(message = "Ocena produktu nie powinna być pusta!")
     private float rating;
 
-    @NotBlank(message = "Id produktu nie może być puste!")
     private Long productId;
 
-    @JsonIgnore
-    private Product product;
 }
