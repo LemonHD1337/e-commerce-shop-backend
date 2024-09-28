@@ -1,6 +1,8 @@
 package co.shop.api.dtos.productDto;
 
 import co.shop.api.entities.enums.Category;
+import co.shop.api.entities.enums.Color;
+import co.shop.api.entities.enums.DressStyle;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -29,4 +31,7 @@ public class UpdateProductDto {
     private int quantity;
 
     private Category category;
+    private co.shop.api.entities.enums.Size size;
+    private Color color;
+    private DressStyle dressStyle;
 }

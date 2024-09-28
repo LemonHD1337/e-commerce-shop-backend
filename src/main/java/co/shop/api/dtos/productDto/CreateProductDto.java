@@ -1,6 +1,8 @@
 package co.shop.api.dtos.productDto;
 
 import co.shop.api.entities.enums.Category;
+import co.shop.api.entities.enums.Color;
+import co.shop.api.entities.enums.DressStyle;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,4 +28,7 @@ public class CreateProductDto {
     private int quantity;
 
     private Category category;
+    private co.shop.api.entities.enums.Size size;
+    private Color color;
+    private DressStyle dressStyle;
 }

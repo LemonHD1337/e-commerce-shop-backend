@@ -22,6 +22,10 @@ public class ProductMapper implements IProductMapper {
         productDto.setPrice(product.getPrice());
         productDto.setQuantity(product.getQuantity());
         productDto.setCategory(product.getCategory());
+        productDto.setColor(product.getColor());
+        productDto.setSize(product.getSize());
+        productDto.setDressStyle(product.getDressStyle());
+        productDto.setQuantitySold(product.getQuantitySold());
         return productDto;
     }
 
@@ -34,6 +38,10 @@ public class ProductMapper implements IProductMapper {
         productEntity.setPrice(createProductDto.getPrice());
         productEntity.setQuantity(createProductDto.getQuantity());
         productEntity.setCategory(createProductDto.getCategory());
+        productEntity.setColor(createProductDto.getColor());
+        productEntity.setSize(createProductDto.getSize());
+        productEntity.setDressStyle(createProductDto.getDressStyle());
+
         return productEntity;
     }
 
@@ -44,6 +52,10 @@ public class ProductMapper implements IProductMapper {
         productFromDb.setPrice(updateProductDto.getPrice());
         productFromDb.setQuantity(updateProductDto.getQuantity());
         productFromDb.setCategory(updateProductDto.getCategory());
+        productFromDb.setColor(updateProductDto.getColor());
+        productFromDb.setSize(updateProductDto.getSize());
+        productFromDb.setDressStyle(updateProductDto.getDressStyle());
+
         return productFromDb;
     }
 }

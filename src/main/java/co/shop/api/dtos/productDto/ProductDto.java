@@ -1,6 +1,9 @@
 package co.shop.api.dtos.productDto;
 
 import co.shop.api.entities.enums.Category;
+import co.shop.api.entities.enums.Color;
+import co.shop.api.entities.enums.DressStyle;
+import co.shop.api.entities.enums.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,4 +23,8 @@ public class ProductDto {
     private BigDecimal price;
     private int quantity;
     private Category category;
+    private Size size;
+    private Color color;
+    private DressStyle dressStyle;
+    private int quantitySold;
 }

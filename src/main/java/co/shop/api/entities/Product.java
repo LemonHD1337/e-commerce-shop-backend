@@ -1,6 +1,9 @@
 package co.shop.api.entities;
 
 import co.shop.api.entities.enums.Category;
+import co.shop.api.entities.enums.Color;
+import co.shop.api.entities.enums.DressStyle;
+import co.shop.api.entities.enums.Size;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -47,4 +50,15 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Opinion> opinions;
+
+    @Column(nullable = false)
+    private Size size;
+
+    @Column(nullable = false)
+    private Color color;
+
+    @Column(nullable = false)
+    private DressStyle dressStyle;
+
+    private int quantitySold = 0;
 }
