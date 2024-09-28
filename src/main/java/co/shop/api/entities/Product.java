@@ -27,10 +27,10 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String name;
 
-    @Column(nullable = false, length = 70)
+    @Column(nullable = false, length = 120)
     private String description;
 
     @Column(nullable = false)
@@ -51,12 +51,15 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Opinion> opinions;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Size size;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Color color;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private DressStyle dressStyle;
 

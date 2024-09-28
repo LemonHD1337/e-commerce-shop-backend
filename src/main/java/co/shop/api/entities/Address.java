@@ -18,16 +18,16 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(length = 20, nullable = false)
     private String houseNumber;
 
-    @Column(nullable = false)
+    @Column(length = 40, nullable = false)
     private String streetName;
 
-    @Column(nullable = false)
+    @Column(length = 40, nullable = false)
     private String city;
 
-    @Column(nullable = false)
+    @Column(length = 6, nullable = false)
     private String zipcode;
 
 }

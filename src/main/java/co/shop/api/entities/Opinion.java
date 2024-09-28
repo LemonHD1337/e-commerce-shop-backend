@@ -18,13 +18,13 @@ public class Opinion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 70)
+    @Column(nullable = false, length = 150)
     private String comment;
 
     @Column(nullable = false)
     private float rating;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_id")
     private Product product;
 }
