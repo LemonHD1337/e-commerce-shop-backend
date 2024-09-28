@@ -4,9 +4,12 @@ import co.shop.api.dtos.productDto.CreateProductDto;
 import co.shop.api.dtos.productDto.ProductDto;
 import co.shop.api.dtos.productDto.UpdateProductDto;
 import co.shop.api.interfaces.services.IProductService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -23,14 +26,21 @@ public class ProductController {
         return ResponseEntity.ok(_productService.getAllProduct());
     }
 
-    @GetMapping(value = "/getById/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<ProductDto> GetProductById(@PathVariable final Long id) {
         return ResponseEntity.ok(_productService.getProductById(id));
     }
 
     @PostMapping
-    public ResponseEntity<ProductDto> CreateProduct(@RequestBody final CreateProductDto createProductDto) {
-        return ResponseEntity.ok(_productService.createProduct(createProductDto));
+    public ResponseEntity<ProductDto> CreateProduct(
+            @RequestBody final CreateProductDto createProductDto,
+            HttpServletRequest request
+    ) {
+       var createdProduct = _productService.createProduct(createProductDto);
+        URI location = ServletUriComponentsBuilder.fromRequest(request)
+                .path("/{id}").buildAndExpand(createdProduct.getId()).toUri();
+
+        return ResponseEntity.created(location).body(createdProduct);
     }
 
     @PutMapping("/{id}")

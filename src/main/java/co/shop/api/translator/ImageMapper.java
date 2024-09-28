@@ -13,6 +13,7 @@ public class ImageMapper implements IImageMapper {
     public ImageDto toDto(Image image) {
         var imageDto = new ImageDto();
 
+        imageDto.setId(image.getId());
         imageDto.setImageName(image.getImageName());
         imageDto.setProductId(image.getProduct().getId());
 

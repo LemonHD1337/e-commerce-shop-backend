@@ -7,5 +7,5 @@ import co.shop.api.dtos.userDto.UserDto;
 public interface IUserService {
     UserDto getUserDetails(Long id);
     Void RegisterUser(RegisterUserDto registerUserDto);
-    UserDto loginUser(LoginUserDto loginUserDto);
+    Void loginUser(LoginUserDto loginUserDto);
 }

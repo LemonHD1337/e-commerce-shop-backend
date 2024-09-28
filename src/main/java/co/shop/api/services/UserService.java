@@ -51,7 +51,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserDto loginUser(LoginUserDto loginUserDto) {
+    public Void loginUser(LoginUserDto loginUserDto) {
         _validator.validate(loginUserDto);
 
         var user = _userRepository.findByEmail(loginUserDto.getEmail());
@@ -65,6 +65,6 @@ public class UserService implements IUserService {
         }
 
 
-        return _userMapper.toUserDto(user);
+        return null;
     }
 }

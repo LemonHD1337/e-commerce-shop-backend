@@ -4,9 +4,12 @@ import co.shop.api.dtos.orderProductDto.CreateOrderProductDto;
 import co.shop.api.dtos.orderProductDto.OrderProductDto;
 import co.shop.api.dtos.orderProductDto.UpdateOrderProductDto;
 import co.shop.api.interfaces.services.IOrderProductService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -23,14 +26,21 @@ public class OrderProductController {
         return ResponseEntity.ok(_orderProductService.getOrderProducts());
     }
 
-    @GetMapping("/getById/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<OrderProductDto> getById(@PathVariable Long id) {
         return ResponseEntity.ok(_orderProductService.getOrderProductById(id));
     }
 
     @PostMapping
-    public ResponseEntity<OrderProductDto> create(@RequestBody CreateOrderProductDto createOrderProductDto) {
-        return ResponseEntity.ok(_orderProductService.createOrderProduct(createOrderProductDto));
+    public ResponseEntity<OrderProductDto> create(
+            @RequestBody CreateOrderProductDto createOrderProductDto,
+            HttpServletRequest request
+    ) {
+        var createdOrderProduct = _orderProductService.createOrderProduct(createOrderProductDto);
+        URI location = ServletUriComponentsBuilder.fromRequest(request)
+                .path("/{id}").buildAndExpand(createdOrderProduct.getId()).toUri();
+
+        return ResponseEntity.created(location).body(createdOrderProduct);
     }
 
     @PutMapping("/{id}")
@@ -40,7 +50,7 @@ public class OrderProductController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        var deletedOrderProduct = _orderProductService.deleteOrderProduct(id);
+        _orderProductService.deleteOrderProduct(id);
 
         return ResponseEntity.noContent().build();
     }

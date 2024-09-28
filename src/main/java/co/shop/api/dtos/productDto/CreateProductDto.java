@@ -1,8 +1,7 @@
 package co.shop.api.dtos.productDto;
 
 import co.shop.api.entities.enums.Category;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,12 +19,11 @@ public class CreateProductDto {
     @Size(min = 3, max = 120, message = "Opis produktu musi zawierać od 3 do 120 znaków")
     private String description;
 
-    @NotBlank(message = "Cena produktu nie może być pusta!")
+    @DecimalMin(value = "10", message = "Cena produktu nie powinna być mniejsza niz 10")
     private BigDecimal price;
 
-    @NotBlank(message = "Nakład produktu nie może być pusty")
+    @Min(value = 1, message = "Nakład produktu nie powinna być mniejsza mniejszy niż 1")
     private int quantity;
 
-    @NotBlank(message = "Kategoria produktu nie może być pusta!")
     private Category category;
 }
