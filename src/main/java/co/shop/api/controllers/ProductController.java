@@ -4,13 +4,17 @@ import co.shop.api.dtos.productDto.CreateProductDto;
 import co.shop.api.dtos.productDto.ProductDto;
 import co.shop.api.dtos.productDto.UpdateProductDto;
 import co.shop.api.interfaces.services.IProductService;
+import co.shop.api.queryObjects.ProductQuery;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+
 import java.net.URI;
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -22,8 +26,14 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductDto>> GetAllProducts() {
-        return ResponseEntity.ok(_productService.getAllProduct());
+    public ResponseEntity<List<ProductDto>> GetAllProducts(@ParameterObject ProductQuery query) {
+        return ResponseEntity
+                .ok()
+                .header(
+                        "X-Total-Count",
+                        String.valueOf(_productService.countProduct())
+                )
+                .body(_productService.getAllProduct(query));
     }
 
     @GetMapping(value = "/{id}")

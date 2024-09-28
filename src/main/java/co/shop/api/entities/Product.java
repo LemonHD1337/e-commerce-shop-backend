@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -64,4 +65,6 @@ public class Product {
     private DressStyle dressStyle;
 
     private int quantitySold = 0;
+
+    private LocalDate createdAt = LocalDate.now();
 }
