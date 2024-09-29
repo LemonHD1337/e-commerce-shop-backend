@@ -14,7 +14,6 @@ public class CreateOpinionDto {
     @Size(min = 5, max = 150, message = "Opinia powinna zawierać od 5 do 150 znaków")
     private String comment;
 
-    @NotBlank(message = "Ocena produktu nie powinna być pusta!")
     private float rating;
 
     private Long productId;
