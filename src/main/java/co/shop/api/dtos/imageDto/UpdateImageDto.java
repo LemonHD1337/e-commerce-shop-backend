@@ -1,15 +1,13 @@
 package co.shop.api.dtos.imageDto;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
 public class UpdateImageDto {
-
-    @NotBlank(message = "Nazwa zdjęcia nie powinna być pusta!")
+    private MultipartFile image;
     private String imageName;
-
     private Long productId;
 }
