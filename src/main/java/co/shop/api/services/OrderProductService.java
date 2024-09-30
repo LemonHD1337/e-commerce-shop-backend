@@ -48,6 +48,15 @@ public class OrderProductService implements IOrderProductService {
     }
 
     @Override
+    public List<OrderProductDto> createManyOrderProducts(List<CreateOrderProductDto> createOrderProductsDto) {
+        createOrderProductsDto.forEach(this::validate);
+        List<OrderProduct> products = createOrderProductsDto.stream().map(_orderProductMapper::fromCreateOrderProductDtoToEntity).toList();
+        _orderProductRepository.saveAll(products);
+
+        return products.stream().map(_orderProductMapper::toDto).toList();
+    }
+
+    @Override
     public OrderProductDto updateOrderProduct(Long id, UpdateOrderProductDto updateOrderProductDto) {
         validate(updateOrderProductDto);
         var orderProductEntity = getOrderProductEntityById(id);

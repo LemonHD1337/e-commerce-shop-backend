@@ -10,6 +10,7 @@ public interface IOrderProductService {
     List<OrderProductDto> getOrderProducts();
     OrderProductDto getOrderProductById(Long id);
     OrderProductDto createOrderProduct(CreateOrderProductDto createOrderProductDto);
+    List<OrderProductDto> createManyOrderProducts(List<CreateOrderProductDto> createOrderProductsDto);
     OrderProductDto updateOrderProduct(Long id,UpdateOrderProductDto updateOrderProductDto);
     OrderProductDto deleteOrderProduct(Long id);
 }

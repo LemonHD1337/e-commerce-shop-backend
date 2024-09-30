@@ -43,6 +43,11 @@ public class OrderProductController {
         return ResponseEntity.created(location).body(createdOrderProduct);
     }
 
+    @PostMapping("/createMany")
+    public ResponseEntity<List<OrderProductDto>> createMany(@RequestBody List<CreateOrderProductDto> createOrderProductsDto) {
+        return ResponseEntity.ok(_orderProductService.createManyOrderProducts(createOrderProductsDto));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<OrderProductDto> update(@PathVariable Long id, @RequestBody UpdateOrderProductDto updateOrderProductDto) {
         return ResponseEntity.ok(_orderProductService.updateOrderProduct(id, updateOrderProductDto));
