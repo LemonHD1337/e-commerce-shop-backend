@@ -3,17 +3,17 @@ package co.shop.api.services;
 import co.shop.api.exception.StorageException;
 import co.shop.api.exception.StorageNotFoundException;
 import jakarta.annotation.Resource;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStream;
+
+import java.io.*;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 @Service
@@ -37,16 +37,12 @@ public class StorageService implements co.shop.api.interfaces.services.StorageSe
             String extension = fileName.substring(fileName.lastIndexOf("."));
             String newFileName = uuid + extension;
 
-            Path destinationFile = this.rootLocation.resolve(
-                    Paths.get(newFileName)
-            ).normalize().toAbsolutePath();
-
-            try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream, destinationFile, StandardCopyOption.REPLACE_EXISTING);
-            }
+            Thumbnails.of(file.getInputStream())
+                    .size(800, 600)
+                    .toFile(rootLocation.resolve(newFileName).toFile());
 
             return newFileName;
-        }catch (IOException e){
+        }catch (Exception e){
             throw new StorageException("Failed to store file", e);
         }
     }
@@ -65,10 +61,11 @@ public class StorageService implements co.shop.api.interfaces.services.StorageSe
                     Paths.get(filename)
             ).normalize().toAbsolutePath();
 
-            try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream, destinationFile, StandardCopyOption.REPLACE_EXISTING);
-            }
-        }catch (IOException e){
+            Thumbnails.of(file.getInputStream())
+                    .size(800, 600)
+                    .toFile(rootLocation.resolve(destinationFile).toFile());
+
+        }catch (Exception e){
             throw new StorageException("Failed to update file", e);
         }
     }
