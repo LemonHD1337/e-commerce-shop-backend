@@ -1,16 +1,12 @@
 package co.shop.api.services;
 
 import co.shop.api.exception.StorageException;
-import co.shop.api.exception.StorageNotFoundException;
-import jakarta.annotation.Resource;
 import net.coobird.thumbnailator.Thumbnails;
-import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 
 import java.io.*;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -71,24 +67,6 @@ public class StorageService implements co.shop.api.interfaces.services.StorageSe
     }
 
     @Override
-    public Resource loadAsResource(String filename) {
-        try {
-            Path file = load(filename);
-            var resource = new UrlResource(file.toUri());
-            if (resource.exists() || resource.isReadable()) {
-                return (Resource) resource;
-            }
-            else {
-                throw new StorageNotFoundException(
-                        "Could not read file: " + filename);
-            }
-        }
-        catch (MalformedURLException e) {
-            throw new StorageNotFoundException("Could not read file: " + filename, e);
-        }
-    }
-
-    @Override
     public void delete(String filename) {
         if(filename.trim().isEmpty()) throw new StorageException("Filename cannot be empty");
 
@@ -100,6 +78,15 @@ public class StorageService implements co.shop.api.interfaces.services.StorageSe
             Files.delete(destinationFile);
         }catch (IOException e){
             throw new StorageException("Failed to delete file", e);
+        }
+    }
+
+    @Override
+    public byte[] loadAsResource(String filename) {
+        try{
+            return Files.readAllBytes(load(filename));
+        }catch (IOException e){
+            throw new StorageException("Failed to load file", e);
         }
     }
 }

@@ -32,9 +32,14 @@ public class ImageController {
         return ResponseEntity.ok(_imageService.getAll());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("getById/{id}")
     public ResponseEntity<ImageDto> getById(@PathVariable Long id) {
         return ResponseEntity.ok(_imageService.getById(id));
+    }
+
+    @GetMapping("/getByFilename/{filename}")
+    public ResponseEntity<byte[]> getByFilename(@PathVariable String filename) {
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(_storageService.loadAsResource(filename));
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
