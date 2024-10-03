@@ -34,7 +34,7 @@ public class StorageService implements co.shop.api.interfaces.services.StorageSe
             String newFileName = uuid + extension;
 
             Thumbnails.of(file.getInputStream())
-                    .size(800, 600)
+                    .size(300, 300)
                     .toFile(rootLocation.resolve(newFileName).toFile());
 
             return newFileName;

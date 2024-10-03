@@ -5,6 +5,7 @@ import co.shop.api.dtos.productDto.CreateProductDto;
 import co.shop.api.dtos.productDto.ProductDto;
 import co.shop.api.dtos.productDto.UpdateProductDto;
 import co.shop.api.entities.Product;
+import co.shop.api.interfaces.mappers.IImageMapper;
 import co.shop.api.interfaces.mappers.IProductMapper;
 import org.springframework.stereotype.Component;
 
@@ -12,9 +13,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProductMapper implements IProductMapper {
 
+    private final IImageMapper _imageMapper;
+
+    public ProductMapper(IImageMapper imageMapper) {
+        this._imageMapper = imageMapper;
+    }
+
     @Override
     public ProductDto toDto(Product product) {
         var productDto = new ProductDto();
+        var images = product.getImages().stream().map(_imageMapper::toDto).toList();
+
 
         productDto.setId(product.getId());
         productDto.setName(product.getName());
@@ -26,6 +35,7 @@ public class ProductMapper implements IProductMapper {
         productDto.setSize(product.getSize());
         productDto.setDressStyle(product.getDressStyle());
         productDto.setQuantitySold(product.getQuantitySold());
+        productDto.setImages(images);
         return productDto;
     }
 
